@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ public class EMIHistory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer emiId;
+	@CreationTimestamp
 	private  Date emiDate;
 	private Double emiAmount;
 	private Double remainingAmount;
