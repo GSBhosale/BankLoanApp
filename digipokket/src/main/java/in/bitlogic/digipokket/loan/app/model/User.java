@@ -2,10 +2,12 @@ package in.bitlogic.digipokket.loan.app.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,5 +29,7 @@ public class User {
 	private String username;
 	private String password;
 	private Double salary;
+	@OneToOne(cascade = CascadeType.ALL)
+	private UserDocuments userDocs=new UserDocuments();
 
 }
