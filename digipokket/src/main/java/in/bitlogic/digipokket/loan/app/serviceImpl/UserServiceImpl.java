@@ -25,4 +25,10 @@ public class UserServiceImpl implements UserService{
 		return userRepository.save(u);
 	}
 
+	@Override
+	public User authenticateUser(String username, String password) {
+
+		return userRepository.findByUsernameAndPassword(username,password);
+	}
+
 }

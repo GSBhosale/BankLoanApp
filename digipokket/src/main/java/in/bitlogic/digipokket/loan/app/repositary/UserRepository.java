@@ -8,4 +8,6 @@ import in.bitlogic.digipokket.loan.app.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
+	public User findByUsernameAndPassword(String username, String password);
+
 }
