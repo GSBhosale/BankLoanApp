@@ -20,7 +20,8 @@ public class UserDocuments {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userDocsId;
 	@Lob
-	private byte[] photo; 
+	private byte[] photo;
 	@Lob
 	private byte[] signature;
+	
 }
