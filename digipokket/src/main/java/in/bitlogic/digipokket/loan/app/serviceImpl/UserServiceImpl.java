@@ -1,5 +1,7 @@
 package in.bitlogic.digipokket.loan.app.serviceImpl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,15 @@ public class UserServiceImpl implements UserService{
 	public User authenticateUser(String username, String password) {
 
 		return userRepository.findByUsernameAndPassword(username,password);
+	}
+
+	@Override
+	public User getSingleUser(Integer userId) {
+		// TODO Auto-generated method stub
+		Optional<User> ou=userRepository.findById(userId);
+		User user=ou.get();
+		return user;
+		
 	}
 
 }

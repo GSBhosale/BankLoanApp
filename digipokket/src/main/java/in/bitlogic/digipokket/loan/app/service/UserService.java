@@ -10,4 +10,7 @@ public interface UserService {
 public User updateUser(User u);
  public User authenticateUser(String username, String password);
 
+
+public User getSingleUser(Integer userId);
+
 }
