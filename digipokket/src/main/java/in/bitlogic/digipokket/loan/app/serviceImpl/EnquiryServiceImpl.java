@@ -52,7 +52,8 @@ public class EnquiryServiceImpl implements EnquiryService{
 	}
 
 	@Override
-	public List<Enquiry> rejectEnquiry(int eid) {
+	public List<Enquiry> rejectEnquiry(int eid) 
+	{
 		
 		
 		Enquiry e=equiryRepo.getById(eid);
