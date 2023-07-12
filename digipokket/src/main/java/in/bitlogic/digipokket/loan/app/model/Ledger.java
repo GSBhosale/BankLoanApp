@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,8 @@ public class Ledger {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer ledgerId;
-	private String ledgerCreatedDate;
+	@CreationTimestamp
+	private Date ledgerCreatedDate;
 	private Double totalLoanAmount;
 	private Double payableAmountwithInterest;
 	private Integer tenure;
