@@ -41,7 +41,7 @@ public class UserController {
 		
 		return new ResponseEntity<User>(user,HttpStatus.CREATED);
 	}
-	@GetMapping("/authenticateUser/{username}/{password}")
+	@GetMapping("/																						/{username}/{password}")
 	public ResponseEntity<User> authenticateUser(@PathVariable("username") String username,@PathVariable("password") String password)
 	{
 		User user=userService.authenticateUser(username,password);
