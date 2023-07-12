@@ -1,4 +1,4 @@
-package in.bitlogic.digipokket.app;
+package in.bitlogic.digipokket.loan.app;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
