@@ -35,4 +35,6 @@ public class AllPersonalDocuments {
 	private Byte[] signature;
 	@Lob
 	private Byte[] thumb;
+	@Lob
+	private Byte[] bankCheque;
 }
