@@ -10,4 +10,7 @@ public interface UserService {
 
 public List<User> getUser();
 
+public User updateUser(User u);
+ public User authenticateUser(String username, String password);
+
 }

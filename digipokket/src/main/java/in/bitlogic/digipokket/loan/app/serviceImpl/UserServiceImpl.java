@@ -32,6 +32,15 @@ public class UserServiceImpl implements UserService{
 	{
 		
 		return userRepository.findAll();
+		
+	}
+	public User updateUser(User u) {
+		// TODO Auto-generated method stub
+		return userRepository.save(u);
+	}
+	public User authenticateUser(String username, String password) {
+
+		return userRepository.findByUsernameAndPassword(username,password);
 	}
 
 }
