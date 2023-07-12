@@ -19,4 +19,10 @@ public class UserServiceImpl implements UserService{
 		return userRepository.save(u);
 	}
 
+	@Override
+	public User updateUser(User u) {
+		// TODO Auto-generated method stub
+		return userRepository.save(u);
+	}
+
 }
