@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ public class SanctionLetter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer sanctionId;
+	@CreationTimestamp
 	private Date sanctionDate;
 	private String applicantName;
 	private Long contactDetails;

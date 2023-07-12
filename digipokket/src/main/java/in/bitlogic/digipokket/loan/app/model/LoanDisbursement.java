@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.stereotype.Component;
 
 
@@ -34,9 +35,11 @@ public class LoanDisbursement {
 //	private DealerBankDetails dealerBankDetails;
 	//private Double transferAmount;
 	// @Enumerated
-
-	 private String paymentStatus;
-	 private Date amountPaidDate;
+    private Double disburseAmount;
+    private Double remainingDisbursement;
+    private String paymentStatus;
+	 @CreationTimestamp
+    private Date amountPaidDate;
 	 @Column(length = 1000000)
 		@Lob
 		private byte[] loanDisbursementLetter;
