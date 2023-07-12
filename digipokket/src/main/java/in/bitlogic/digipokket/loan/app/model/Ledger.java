@@ -31,6 +31,7 @@ public class Ledger {
 	private Double payableAmountwithInterest;
 	private Integer tenure;
 	private Double monthlyEMI;
+	private Double rateOfInterest;
 	private Double amountPaidtillDate;
 	private Double remainingAmount;
 	private String nextEmiDatestart;
