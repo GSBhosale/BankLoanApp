@@ -1,5 +1,7 @@
 package in.bitlogic.digipokket.loan.app.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +15,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cibil {
+public class EMIHistory {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-private Integer cibilId;
-private Integer cibilScore;
-private String cibilStatus;
+	private Integer emiId;
+	private  Date emiDate;
+	private Double emiAmount;
+	private Double remainingAmount;
+	
 }
