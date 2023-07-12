@@ -30,9 +30,9 @@ public class LoanDisbursement {
 	private Integer agreementId;
 	private Long loanNo;
 	private Double totalLoanAmount;
-	@OneToOne(cascade = CascadeType.ALL)
+	//@OneToOne(cascade = CascadeType.ALL)
 //	private DealerBankDetails dealerBankDetails;
-	private Double transferAmount;
+	//private Double transferAmount;
 	// @Enumerated
 
 	 private String paymentStatus;

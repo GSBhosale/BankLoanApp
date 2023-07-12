@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,9 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer addressId;
+	@OneToOne(cascade = CascadeType.ALL)
 	private LocalAddress localAddress;
+	@OneToOne(cascade = CascadeType.ALL)
 	private PermanentAddress permanentAddress;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Customer> setCustomer;

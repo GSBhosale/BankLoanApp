@@ -1,6 +1,7 @@
 package in.bitlogic.digipokket.loan.app.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -41,6 +42,6 @@ public class Ledger {
 	private String currentMonthEmiStatus;
 	private String loanEndDate;
 	@OneToMany(cascade = CascadeType.ALL)
-	private EMIHistory emiHistory;
+	private Set<EMIHistory> allEMIHistory;
 
 }
