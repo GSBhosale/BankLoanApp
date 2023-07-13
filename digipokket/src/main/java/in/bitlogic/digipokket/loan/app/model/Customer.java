@@ -33,15 +33,15 @@ public class Customer {
 	private String username;
 	private String password;
 	@OneToOne(cascade = CascadeType.ALL)
-	private Cibil cibil;
+	private Cibil cibil;                 //at start
 	@OneToOne(cascade = CascadeType.ALL)
-	private AllPersonalDocuments allPersonalDocuments;
+	private AllPersonalDocuments allPersonalDocuments;   //at start
 	@OneToOne(cascade = CascadeType.ALL)
-	private AccountDetails accountDetails;
+	private AccountDetails accountDetails;     //at start
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Address address;
+	private Address address;                //at start
 	@OneToOne(cascade = CascadeType.ALL)
-	private Ledger ledger;
+	private Ledger ledger;                 
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionLetter;
 	@OneToOne(cascade = CascadeType.ALL)

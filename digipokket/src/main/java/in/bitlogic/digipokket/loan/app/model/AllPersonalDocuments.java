@@ -20,21 +20,21 @@ public class AllPersonalDocuments {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer docsId;
 	@Lob
-	private Byte[] addressProof;
+	private byte[] addressProof;
 	@Lob
-	private Byte[] panCard;
+	private byte[] panCard;
 	@Lob
-	private Byte[] adharCard;
+	private byte[] adharCard;
 	@Lob
-	private Byte[] incomeProof;
+	private byte[] incomeProof;
 	@Lob
-	private Byte[] bankPassbook;
+	private byte[] bankPassbook;
 	@Lob
-	private Byte[] passportPhoto;
+	private byte[] passportPhoto;
 	@Lob
-	private Byte[] signature;
+	private byte[] signature;
 	@Lob
-	private Byte[] thumb;
+	private byte[] thumb;
 	@Lob
-	private Byte[] bankCheque;
+	private byte[] bankCheque;
 }
