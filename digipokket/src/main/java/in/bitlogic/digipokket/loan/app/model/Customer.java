@@ -36,16 +36,16 @@ public class Customer {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil cibil;                 //at start
 	@OneToOne(cascade = CascadeType.ALL)
-	private AllPersonalDocuments allPersonalDocuments;   //at start
+	private AllPersonalDocuments allPersonalDocuments =new AllPersonalDocuments();   //at start
 	@OneToOne(cascade = CascadeType.ALL)
-	private AccountDetails accountDetails;     //at start
+	private AccountsDetails accountDetails=new AccountsDetails() ;     //at start
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Address address;                //at start
+	private Address address=new Address();                //at start
 	@OneToOne(cascade = CascadeType.ALL)
-	private Ledger ledger;                 
+	private Ledger ledger=new Ledger();                 
 	@OneToOne(cascade = CascadeType.ALL)
-	private SanctionLetter sanctionLetter;
+	private SanctionLetter sanctionLetter=new SanctionLetter();
 	@OneToOne(cascade = CascadeType.ALL)
-	private LoanDisbursement loanDisbursement;
+	private LoanDisbursement loanDisbursement=new LoanDisbursement();
 	
 }

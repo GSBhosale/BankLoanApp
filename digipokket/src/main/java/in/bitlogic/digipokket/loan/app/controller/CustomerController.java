@@ -30,11 +30,11 @@ public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	
-	@PostMapping(value="/createCustomer",consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value="/createCustomer")
 	public ResponseEntity<Customer> createCustomer(@RequestParam (value="passportPhoto") MultipartFile file1,@RequestParam (value="signature") MultipartFile file2,
 			@RequestParam (value="thumb") MultipartFile file3,@RequestParam (value="adharCard") MultipartFile file4,@RequestParam (value="panCard") MultipartFile file5,
 			@RequestParam (value="addressProof") MultipartFile file6,@RequestParam (value="incomeProof") MultipartFile file7,@RequestParam (value="bankPassbook") MultipartFile file8,
-			@RequestParam (value="bankCheque") MultipartFile file9,@RequestParam("data") String json) throws IOException, JsonProcessingException
+			@RequestParam (value="bankCheque") MultipartFile file9,@RequestParam("data") String json) throws IOException
 	{
 		
 		ObjectMapper om=new ObjectMapper();

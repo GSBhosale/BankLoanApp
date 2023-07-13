@@ -1,5 +1,6 @@
 package in.bitlogic.digipokket.loan.app.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,11 +24,11 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer addressId;
 	@OneToOne(cascade = CascadeType.ALL)
-	private LocalAddress localAddress;
+	private LocalAddress localAddress=new LocalAddress() ;
 	@OneToOne(cascade = CascadeType.ALL)
-	private PermanentAddress permanentAddress;
+	private PermanentAddress permanentAddress=new PermanentAddress();
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Customer> setCustomer;
+	private Set<Customer> setCustomer=new HashSet();
 
 
 }

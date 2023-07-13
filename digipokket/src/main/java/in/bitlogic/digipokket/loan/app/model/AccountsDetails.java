@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AccountDetails {
+public class AccountsDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +23,8 @@ public class AccountDetails {
 	private String accountType;
 	private String accoubntHoldersName;
 	private Long accountNumbber;
+	private Double requiredLoanAmount;
+	private Integer tenureInYear;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private BankDetails bankdetails;
 }
