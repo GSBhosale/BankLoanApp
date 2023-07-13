@@ -19,7 +19,7 @@ public class LoanDisbursementController {
 		@Autowired
 		LoanDisbursementService loanDisbursementService;
 
-		@PostMapping("/createLoanDisbursement/{customerId}")
+	@PostMapping("/createLoanDisbursement/{customerId}")
 	public ResponseEntity<LoanDisbursement> loanAmountDisbursement(@RequestBody LoanDisbursement ld,@PathVariable Integer customerId)
 	{
 		LoanDisbursement loanDisbursement=loanDisbursementService.loanAmountDisbursement(ld,customerId);

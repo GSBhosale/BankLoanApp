@@ -29,6 +29,7 @@ public class SanctionLetter {
 	private Double loanAmountSanctioned;
 	private Double rateOfInterest;
 	private Integer loanTenure;
+	private Double totalInterestAmount;
 	private Double monthlyEmiAmount;
 	private String termsCondition;
 	private Double totalLoanAmountWithInterest;

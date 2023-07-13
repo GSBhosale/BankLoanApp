@@ -46,6 +46,23 @@ public class SanctionServiceImp implements SanctionService
 		
 		customer.setSanctionLetter(sanLetter);
 		
+		double rate=sanLetter.getRateOfInterest();
+		int ten=sanLetter.getLoanTenure();
+		
+		double amount=sanLetter.getLoanAmountSanctioned();
+	
+		rate=rate/(12*100);
+		ten=ten*12;
+		//double E=am*r*(Math.pow(1+r,n)/(Math.pow(1+r,n)-1));
+
+		 double E=amount*rate*(Math.pow(1+rate,ten)/(Math.pow(1+rate,ten)-1));
+		sanLetter.setMonthlyEmiAmount(E);
+		 double totalAm=E*ten;
+		 sanLetter.setTotalLoanAmountWithInterest(totalAm);
+		 double totalInterest=totalAm-amount;
+		 
+		 sanLetter.setTotalInterestAmount(totalAm-amount);
+
 		customerRepository.save(customer);
 	}
 		
