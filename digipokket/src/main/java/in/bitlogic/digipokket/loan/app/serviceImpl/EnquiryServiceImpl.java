@@ -43,6 +43,16 @@ public class EnquiryServiceImpl implements EnquiryService{
 			e.setCibilStatus("EXCELLENT");
 		}
 		
+		SimpleMailMessage sm=new SimpleMailMessage();
+		
+		sm.setFrom(fromEmail);
+		sm.setTo(e.getEmailId());
+		sm.setSubject("LETTER FOR SUBMITING ENQUIRY OF LOAN");
+		sm.setText("Dear recipient M/s"+e.getFirstName()+" "+e.getLastName()+"\n \n    With regars to your letter enquiring about applying for a loan, could you visit to bank site and discuss the matter with our Relationship Executive during banking hours..");
+				
+		
+		jms.send(sm);
+		
 		return equiryRepo.save(e);
 	}
 

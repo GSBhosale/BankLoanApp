@@ -46,4 +46,5 @@ public class Customer {
 	private SanctionLetter sanctionLetter;
 	@OneToOne(cascade = CascadeType.ALL)
 	private LoanDisbursement loanDisbursement;
+	
 }

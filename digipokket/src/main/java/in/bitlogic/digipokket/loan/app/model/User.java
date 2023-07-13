@@ -26,8 +26,9 @@ public class User {
 	private String lastName;
 	private String designation;
 	private Long mobileNumber;
-	private String username;
-	private String password;
+	private String emailId;
+	private String username;  ///auto
+	private String password;    //auto
 	private Double salary;
 	@OneToOne(cascade = CascadeType.ALL)
 	private UserDocuments userDocs=new UserDocuments();
