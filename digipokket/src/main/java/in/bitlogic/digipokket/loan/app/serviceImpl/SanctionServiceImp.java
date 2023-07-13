@@ -45,6 +45,8 @@ public class SanctionServiceImp implements SanctionService
 		Customer customer=om.get();
 		
 		customer.setSanctionLetter(sanLetter);
+		
+		customerRepository.save(customer);
 	}
 		
 		return null;

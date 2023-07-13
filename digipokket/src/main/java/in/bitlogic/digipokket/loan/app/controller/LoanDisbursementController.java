@@ -9,23 +9,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.LoanDisbursement;
-import in.bitlogic.digipokket.loan.app.service.CustomerService;
+import in.bitlogic.digipokket.loan.app.service.LoanDisbursementService;
 
 @RestController
-@RequestMapping("/customer")
-public class CustomerController {
+@RequestMapping("disbursement")
+public class LoanDisbursementController {
 	
-	@Autowired
-	CustomerService customerService;
-	
-	@PostMapping("/createCustomer")
-	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer)
+		@Autowired
+		LoanDisbursementService loanDisbursementService;
+
+		@PostMapping("/createLoanDisbursement/{customerId}")
+	public ResponseEntity<LoanDisbursement> loanAmountDisbursement(@RequestBody LoanDisbursement ld,@PathVariable Integer customerId)
 	{
-		Customer cust=customerService.createCustomer(customer);
-		return new ResponseEntity<>(cust,HttpStatus.CREATED);
+		LoanDisbursement loanDisbursement=loanDisbursementService.loanAmountDisbursement(ld,customerId);
+		return new ResponseEntity<>(loanDisbursement,HttpStatus.CREATED);
 				
 	}
-
 }
