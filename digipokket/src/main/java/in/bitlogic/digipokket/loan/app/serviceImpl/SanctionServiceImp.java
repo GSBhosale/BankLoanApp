@@ -50,7 +50,7 @@ public class SanctionServiceImp implements SanctionService
 		int ten=sanLetter.getLoanTenure();
 		
 		double amount=sanLetter.getLoanAmountSanctioned();
-	
+	double processingFees=amount*(0.25/100);
 		rate=rate/(12*100);
 		ten=ten*12;
 		//double E=am*r*(Math.pow(1+r,n)/(Math.pow(1+r,n)-1));
@@ -58,9 +58,8 @@ public class SanctionServiceImp implements SanctionService
 		 double E=amount*rate*(Math.pow(1+rate,ten)/(Math.pow(1+rate,ten)-1));
 		sanLetter.setMonthlyEmiAmount(E);
 		 double totalAm=E*ten;
-		 sanLetter.setTotalLoanAmountWithInterest(totalAm);
+		 sanLetter.setTotalLoanAmountWithInterest(totalAm+processingFees);
 		 double totalInterest=totalAm-amount;
-		 
 		 sanLetter.setTotalInterestAmount(totalAm-amount);
 
 		customerRepository.save(customer);
