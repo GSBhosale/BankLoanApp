@@ -164,7 +164,7 @@ public class SanctionServiceImp implements SanctionService
 		 sanLetter.setTotalLoanAmountWithInterest(totalAm+processingFees);
 		 double totalInterest=totalAm-amount;
 		 sanLetter.setTotalInterestAmount(totalAm-amount);
-
+		 sanLetter.setProcessingFees(processingFees);
 		customerRepository.save(customer);
 	}
 		
