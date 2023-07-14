@@ -33,6 +33,7 @@ public class SanctionLetter {
 	private Double monthlyEmiAmount;
 	private String termsCondition;
 	private Double totalLoanAmountWithInterest;
+	private Double processingFees;
 	// @Enumerated
 	private String sactionStatus;
 
