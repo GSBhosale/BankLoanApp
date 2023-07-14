@@ -29,10 +29,6 @@ public class SanctionServiceImp implements SanctionService
 	public ByteArrayInputStream createPdf(int sanctionId) 
 	{
 
-	
-     	
-     	
-	
 	return null;
 	}
 

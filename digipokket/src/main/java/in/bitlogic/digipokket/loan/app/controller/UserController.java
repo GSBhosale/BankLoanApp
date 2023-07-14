@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.model.User;
 import in.bitlogic.digipokket.loan.app.service.UserService;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
 public class UserController {
