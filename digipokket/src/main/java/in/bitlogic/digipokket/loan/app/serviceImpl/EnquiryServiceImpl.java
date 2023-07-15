@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.repositary.EnquiryRepositary;
 import in.bitlogic.digipokket.loan.app.service.EnquiryService;
+import in.bitlogic.digipokket.loan.enums.EnquiryStatus;
 @Service
 public class EnquiryServiceImpl implements EnquiryService{
 
@@ -26,33 +27,33 @@ public class EnquiryServiceImpl implements EnquiryService{
 	@Override
 	public Enquiry makeEnquiry(Enquiry e) {
 		
-		if(e.getCibilScore()>300 && e.getCibilScore()<=550)
-		{
-			e.setCibilStatus("POOR");
-		}
-		else if(e.getCibilScore()>550 && e.getCibilScore()<=650)
-		{
-			e.setCibilStatus("AVERAGE");
-		}
-		else if(e.getCibilScore()>650 && e.getCibilScore()<=750)
-		{
-			e.setCibilStatus("GOOD");
-		}
-		else if(e.getCibilScore()>750 && e.getCibilScore()<=900)
-		{
-			e.setCibilStatus("EXCELLENT");
-		}
+//		if(e.getCibilScore()>300 && e.getCibilScore()<=550)
+//		{
+//			e.setCibilStatus("POOR");
+//		}
+//		else if(e.getCibilScore()>550 && e.getCibilScore()<=650)
+//		{
+//			e.setCibilStatus("AVERAGE");
+//		}
+//		else if(e.getCibilScore()>650 && e.getCibilScore()<=750)
+//		{
+//			e.setCibilStatus("GOOD");
+//		}
+//		else if(e.getCibilScore()>750 && e.getCibilScore()<=900)
+//		{
+//			e.setCibilStatus("EXCELLENT");
+//		}
 		
-		SimpleMailMessage sm=new SimpleMailMessage();
-		
-		sm.setFrom(fromEmail);
-		sm.setTo(e.getEmailId());
-		sm.setSubject("LETTER FOR SUBMITING ENQUIRY OF LOAN");
-		sm.setText("Dear recipient M/s"+e.getFirstName()+" "+e.getLastName()+"\n \n    With regars to your letter enquiring about applying for a loan, could you visit to bank site and discuss the matter with our Relationship Executive during banking hours..");
-				
-		
-		jms.send(sm);
-		
+//		SimpleMailMessage sm=new SimpleMailMessage();
+//		
+//		sm.setFrom(fromEmail);
+//		sm.setTo(e.getEmailId());
+//		sm.setSubject("LETTER FOR SUBMITING ENQUIRY OF LOAN");
+//		sm.setText("Dear recipient M/s"+e.getFirstName()+" "+e.getLastName()+"\n \n    With regars to your letter enquiring about applying for a loan, could you visit to bank site and discuss the matter with our Relationship Executive during banking hours..");
+//				
+//		
+	//	jms.send(sm);
+		e.setEnquiryStatus(String.valueOf(EnquiryStatus.CREATED));
 		return equiryRepo.save(e);
 	}
 
@@ -67,7 +68,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 		
 		
 		Enquiry e=equiryRepo.getById(eid);
-			
+			e.setEnquiryStatus(String.valueOf(EnquiryStatus.CIBIL_REJECT));
 			SimpleMailMessage sm=new SimpleMailMessage();
 			
 			sm.setFrom(fromEmail);
@@ -75,7 +76,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 			sm.setSubject("LETTER FOR REJECT OF LOAN");
 			sm.setText("This letter is to notify M/s"+e.getFirstName()+" "+e.getLastName()+" about the rejection of your loan request that you submitted at digipokket Pvt. Ltd.\n Unfortunately,"
 					+ "You were failed the criteria of credit score that is must to aaply for the loan"
-					+ "your cibil score : "+e.getCibilScore()+"  \n"+"your cibil status : "+e.getCibilStatus());
+					+ "your cibil score : "+e.getCibilScore()+"  \n"+"your cibil status : "+e.getEnquiryStatus());
 			
 			jms.send(sm);
 		
