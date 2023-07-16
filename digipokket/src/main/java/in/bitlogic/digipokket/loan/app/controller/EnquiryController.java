@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.service.EnquiryService;
+import in.bitlogic.digipokket.loan.enums.EnquiryStatus;
 
 
 @CrossOrigin(origins = "*")
@@ -46,6 +47,14 @@ public class EnquiryController {
 	public ResponseEntity<List<Enquiry>> rejectEnquiry(@PathVariable("enquiryId") int eid)
 	{
 		List<Enquiry> listOfEnquiry=enquiryService.rejectEnquiry(eid);
+		
+		return new ResponseEntity<List<Enquiry>>(listOfEnquiry,HttpStatus.OK);
+	}
+	
+	@GetMapping("/viewAllEnquiryToOE")
+	public ResponseEntity<List<Enquiry>> viewAllEnquiryToOE()
+	{
+		List<Enquiry> listOfEnquiry=enquiryService.viewAllEnquiry(String.valueOf(EnquiryStatus.CIBIl_REQUIRED),String.valueOf(EnquiryStatus.CIBIL_REJECT),String.valueOf(EnquiryStatus.CIBIL_OK));
 		
 		return new ResponseEntity<List<Enquiry>>(listOfEnquiry,HttpStatus.OK);
 	}

@@ -53,13 +53,14 @@ public class EnquiryServiceImpl implements EnquiryService{
 //				
 //		
 	//	jms.send(sm);
+		
 		e.setEnquiryStatus(String.valueOf(EnquiryStatus.CREATED));
 		return equiryRepo.save(e);
 	}
 
 	@Override
 	public List<Enquiry> viewAllEnquiry() {
-		return equiryRepo.findAll();
+		return equiryRepo.findAllByEnquiryStatusOrEnquiryStatusOrEnquiryStatus(String.valueOf(EnquiryStatus.CREATED),String.valueOf(EnquiryStatus.CIBIL_REJECT),String.valueOf(EnquiryStatus.CIBIL_OK));
 	}
 
 	@Override
@@ -68,7 +69,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 		
 		
 		Enquiry e=equiryRepo.getById(eid);
-			e.setEnquiryStatus(String.valueOf(EnquiryStatus.CIBIL_REJECT));
+			e.setEnquiryStatus(String.valueOf(EnquiryStatus.REJECTED));
 			SimpleMailMessage sm=new SimpleMailMessage();
 			
 			sm.setFrom(fromEmail);
@@ -80,10 +81,15 @@ public class EnquiryServiceImpl implements EnquiryService{
 			
 			jms.send(sm);
 		
-		equiryRepo.deleteById(eid);
+		equiryRepo.save(e);
 		
 		
 		
 		return equiryRepo.findAll();
+	}
+
+	@Override
+	public List<Enquiry> viewAllEnquiry(String status1, String status2,String status3) {
+		return equiryRepo.findAllByEnquiryStatusOrEnquiryStatusOrEnquiryStatus(status1,status2,status3);
 	}
 }
