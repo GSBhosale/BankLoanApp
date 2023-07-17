@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.repositary.EnquiryRepositary;
@@ -21,6 +22,9 @@ public class EnquiryServiceImpl implements EnquiryService{
 	
 	@Autowired
 	JavaMailSender jms;
+	
+	@Autowired(required=true)
+	RestTemplate rst;
 
 	@Value(value="${spring.mail.username}")
 	String fromEmail;
@@ -104,5 +108,28 @@ public class EnquiryServiceImpl implements EnquiryService{
 			enquiry.setEnquiryStatus(String.valueOf(EnquiryStatus.CIBIl_REQUIRED));
 			equiryRepo.save(enquiry);
 		}
+	}
+
+	@Override
+	public Integer checkCIBIL(int eid) {
+		
+		Optional<Enquiry> oe=equiryRepo.findById(eid);
+		
+			Enquiry enquiry=oe.get();
+			
+		Integer cibilScore=rst.getForObject("http://localhost:8080/cibilCalculator/getCibil/"+enquiry.getPanNo(),Integer.class);
+		enquiry.setCibilScore(cibilScore);
+		if(cibilScore>=750)
+		{
+			enquiry.setEnquiryStatus(String.valueOf(EnquiryStatus.CIBIL_OK));
+			equiryRepo.save(enquiry);
+		}
+		else if(cibilScore<750)
+		{
+			enquiry.setEnquiryStatus(String.valueOf(EnquiryStatus.CIBIL_REJECT));
+			equiryRepo.save(enquiry);
+		}
+		
+		return cibilScore;
 	}
 }

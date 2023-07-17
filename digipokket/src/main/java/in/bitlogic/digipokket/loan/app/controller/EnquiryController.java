@@ -65,4 +65,12 @@ public class EnquiryController {
 		enquiryService.forwardToOE(eid);
 		return null;
 	}
+	
+	@GetMapping("/checkCIBIL/{enquiryId}")
+	public ResponseEntity<Integer> checkCIBIL(@PathVariable("enquiryId") int eid)
+	{
+		Integer cibilScore=enquiryService.checkCIBIL(eid);
+		
+		return new ResponseEntity<Integer>(cibilScore,HttpStatus.OK);
+	}
 }

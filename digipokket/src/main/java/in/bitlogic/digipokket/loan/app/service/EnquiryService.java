@@ -16,4 +16,6 @@ public interface EnquiryService {
 
 	public void forwardToOE(int eid);
 
+	public Integer checkCIBIL(int eid);
+
 }
