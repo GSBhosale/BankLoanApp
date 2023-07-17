@@ -12,4 +12,6 @@ public interface EnquiryService {
 
 	public List<Enquiry> rejectEnquiry(int eid);
 
+      public List<Enquiry> viewAllEnquiry(String status1, String status2,String status3);
+
 }

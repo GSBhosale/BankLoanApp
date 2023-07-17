@@ -36,6 +36,7 @@ public class SanctionServiceImp implements SanctionService
 	@Override
 	public ByteArrayInputStream createPdf(int customerId) 
 	{
+
 //
 //	     Optional<SanctionLetter> opsan=sanRepository.findById(customerId);
 //     	
@@ -44,7 +45,13 @@ public class SanctionServiceImp implements SanctionService
      	   Optional<Customer> opsan1=customerRepository.findById(customerId);
      	                 
      	      Customer  customer= opsan1.get();
-	
+
+
+
+//	     Optional<SanctionLetter> opsan=sanRepository.findById(sanctionId);
+//     	
+//     	    SanctionLetter sanction = opsan.get();
+
 		String title = "Final Sanction Letter";
 
 	    Date date = new Date();
@@ -289,6 +296,7 @@ public class SanctionServiceImp implements SanctionService
 	
 	    return new ByteArrayInputStream(out.toByteArray());
 	   
+
 	}
 
 	
@@ -318,7 +326,7 @@ public class SanctionServiceImp implements SanctionService
 		 sanLetter.setTotalLoanAmountWithInterest(totalAm+processingFees);
 		 double totalInterest=totalAm-amount;
 		 sanLetter.setTotalInterestAmount(totalAm-amount);
-
+		 sanLetter.setProcessingFees(processingFees);
 		customerRepository.save(customer);
 	}
 		
