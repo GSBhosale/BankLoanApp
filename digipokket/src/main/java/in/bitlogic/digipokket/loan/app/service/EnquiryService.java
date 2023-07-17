@@ -14,4 +14,6 @@ public interface EnquiryService {
 
       public List<Enquiry> viewAllEnquiry(String status1, String status2,String status3);
 
+	public void forwardToOE(int eid);
+
 }

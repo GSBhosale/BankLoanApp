@@ -58,4 +58,11 @@ public class EnquiryController {
 		
 		return new ResponseEntity<List<Enquiry>>(listOfEnquiry,HttpStatus.OK);
 	}
+	
+	@GetMapping("/forwardToOE/{enquiryId}")
+	public ResponseEntity<List<Enquiry>> forwardToOE(@PathVariable("enquiryId") int eid)
+	{
+		enquiryService.forwardToOE(eid);
+		return null;
+	}
 }

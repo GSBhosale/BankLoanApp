@@ -1,6 +1,7 @@
 package in.bitlogic.digipokket.loan.app.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,5 +92,17 @@ public class EnquiryServiceImpl implements EnquiryService{
 	@Override
 	public List<Enquiry> viewAllEnquiry(String status1, String status2,String status3) {
 		return equiryRepo.findAllByEnquiryStatusOrEnquiryStatusOrEnquiryStatus(status1,status2,status3);
+	}
+
+	@Override
+	public void forwardToOE(int eid) {
+
+		Optional<Enquiry> oe=equiryRepo.findById(eid);
+		if(oe.isPresent())
+		{
+			Enquiry enquiry=oe.get();
+			enquiry.setEnquiryStatus(String.valueOf(EnquiryStatus.CIBIl_REQUIRED));
+			equiryRepo.save(enquiry);
+		}
 	}
 }
