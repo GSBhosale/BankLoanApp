@@ -7,7 +7,7 @@ import in.bitlogic.digipokket.loan.app.model.SanctionLetter;
 public interface SanctionService 
 {
 
-	public ByteArrayInputStream createPdf(int sanctionId);
+	public ByteArrayInputStream createPdf(int customerId);
 
 	public SanctionLetter sanctionLoan(SanctionLetter sanLetter, int customerId);
 

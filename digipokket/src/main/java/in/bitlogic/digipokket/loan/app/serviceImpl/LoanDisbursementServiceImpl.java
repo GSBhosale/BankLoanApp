@@ -1,5 +1,6 @@
 package in.bitlogic.digipokket.loan.app.serviceImpl;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,18 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService{
 			
 			return null;
 		}
+
+
+	@Override
+	public ByteArrayInputStream createDisbursementPdf(int customerId) 
+	{
+     
+		  Optional<Customer> opsan1=customerRepository.findById(customerId);
+           
+ 	      Customer  customer= opsan1.get();
+		
+		
+		return null;
+	}
 		 
 }

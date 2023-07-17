@@ -38,11 +38,11 @@ public class SanctionController
 	}
 	
 	
-	@GetMapping("/mailPdf/{sanctionId}")
-	public ResponseEntity<InputStreamResource> getPdfDocument(@PathVariable int sanctionId)
+	@GetMapping("/mailPdf/{customerId}")
+	public ResponseEntity<InputStreamResource> getPdfDocument(@PathVariable int customerId)
 	{
 		
-		    ByteArrayInputStream pdfArray=	sanctionService.createPdf(sanctionId);
+		    ByteArrayInputStream pdfArray=	sanctionService.createPdf(customerId);
 		    HttpHeaders headers=new HttpHeaders();
 		    headers.add("Content-Disposition","inline;filename=mypdf.pdf");
 			return ResponseEntity.ok()
