@@ -20,4 +20,6 @@ public interface EnquiryService {
 
 	public List<Enquiry> getCIBIL();
 
+	public void sendSuccessMail(int eid);
+
 }
