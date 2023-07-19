@@ -1,9 +1,14 @@
 package in.bitlogic.digipokket.loan.app.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.bitlogic.digipokket.loan.app.model.Address;
 import in.bitlogic.digipokket.loan.app.model.Customer;
+import in.bitlogic.digipokket.loan.app.repositary.AddressRepositary;
 import in.bitlogic.digipokket.loan.app.repositary.CustomerRepository;
 import in.bitlogic.digipokket.loan.app.service.CustomerService;
 @Service
@@ -12,11 +17,13 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	CustomerRepository customerRepository;
 	
+	@Autowired
+	AddressRepositary addressRepositary;
+	
 	@Override
 	public Customer createCustomer(Customer customer)
 	{
 		customer.getAccountDetails().setAccoubntHoldersName(customer.getFirstName()+" "+customer.getMiddleName()+" "+customer.getLastName());
-		//customer.getAddress().getSetCustomer().add(customer);
 		if(customer.getCibil().getCibilScore()>300 && customer.getCibil().getCibilScore()<=550)
 		{
 			customer.getCibil().setCibilStatus("POOR");
@@ -43,7 +50,24 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		Customer customer2=customerRepository.save(customer);
 		
-		return customer2;
+		return customer;
 	}
+
+	@Override
+	public List<Customer> areaWiseUsers(String city) {
+		List<Customer> lc=customerRepository.findAll();
+		List<Customer> listArea=new ArrayList();
+		for(Customer c:lc) {
+			if(c.getAddress().getLocalAddress().equals(city))
+			{
+				listArea.add(c);
+			}
+		}
+		
+		return listArea;
+		
+	}
+	
+	
 
 }

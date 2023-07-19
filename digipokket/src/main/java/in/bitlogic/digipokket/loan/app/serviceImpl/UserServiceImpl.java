@@ -53,4 +53,16 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	@Override
+	public List<User> getAllUsers() {
+		// TODO Auto-generated method stub
+		return userRepository.findAll();
+	}
+
+	@Override
+	public void deleteUser(int uid) {
+		// TODO Auto-generated method stub
+		userRepository.deleteById(uid);
+	}
+
 }

@@ -16,4 +16,8 @@ public User updateUser(User u);
 
 public User getSingleUser(Integer userId);
 
+public List<User> getAllUsers();
+
+public void deleteUser(int uid);
+
 }

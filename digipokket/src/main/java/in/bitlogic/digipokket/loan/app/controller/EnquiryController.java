@@ -73,4 +73,12 @@ public class EnquiryController {
 		
 		return new ResponseEntity<Integer>(cibilScore,HttpStatus.OK);
 	}
+	
+	@GetMapping("/getCIBIL")
+	public  ResponseEntity<List<Enquiry>> getCIBIL()
+	{
+		List<Enquiry> le=enquiryService.getCIBIL();
+		
+		return new ResponseEntity<List<Enquiry>>(le,HttpStatus.OK);
+	}
 }

@@ -1,12 +1,14 @@
 package in.bitlogic.digipokket.loan.app.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.LoanDisbursement;
+import in.bitlogic.digipokket.loan.app.model.User;
 import in.bitlogic.digipokket.loan.app.service.CustomerService;
 @CrossOrigin("*")
 @RestController
@@ -51,6 +54,15 @@ public class CustomerController {
 		Customer cust=customerService.createCustomer(customer);
 		return new ResponseEntity<Customer>(cust,HttpStatus.CREATED);
 				
+	}
+	
+	@GetMapping("/areaWiseCustomers/{cityName}")
+	public ResponseEntity<List<Customer>> areaWiseUsers(@PathVariable ("cityName") String city)
+	{
+		
+		List<Customer> lc=customerService.areaWiseUsers(city);
+		return new ResponseEntity<List<Customer>>(lc,HttpStatus.OK);
+		
 	}
 
 }

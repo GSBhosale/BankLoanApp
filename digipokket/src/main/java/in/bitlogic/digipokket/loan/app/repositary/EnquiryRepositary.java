@@ -14,6 +14,8 @@ public interface EnquiryRepositary extends JpaRepository<Enquiry, Integer> {
 	public List<Enquiry> findAllByEnquiryStatusOrEnquiryStatusOrEnquiryStatus(String string, String string2,
 			String string3);
 
+	public List<Enquiry> findAllByEnquiryStatusOrEnquiryStatus(String valueOf, String valueOf2);
+
 	
 
 }

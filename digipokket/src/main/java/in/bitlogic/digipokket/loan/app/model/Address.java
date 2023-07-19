@@ -27,8 +27,5 @@ public class Address {
 	private LocalAddress localAddress=new LocalAddress() ;
 	@OneToOne(cascade = CascadeType.ALL)
 	private PermanentAddress permanentAddress=new PermanentAddress();
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Customer> setCustomer=new HashSet();
-
-
+	
 }

@@ -39,8 +39,8 @@ public class Customer {
 	private AllPersonalDocuments allPersonalDocuments =new AllPersonalDocuments();   //at start
 	@OneToOne(cascade = CascadeType.ALL)
 	private AccountsDetails accountDetails=new AccountsDetails() ;     //at start
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Address address=new Address();                //at start
+	@OneToOne(cascade = CascadeType.ALL)
+	private Address address;                //at start
 	@OneToOne(cascade = CascadeType.ALL)
 	private Ledger ledger=new Ledger();                 
 	@OneToOne(cascade = CascadeType.ALL)

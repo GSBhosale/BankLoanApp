@@ -132,4 +132,10 @@ public class EnquiryServiceImpl implements EnquiryService{
 		
 		return cibilScore;
 	}
+
+	@Override
+	public List<Enquiry> getCIBIL() {
+		
+		return equiryRepo.findAllByEnquiryStatusOrEnquiryStatus(String.valueOf(EnquiryStatus.CIBIL_OK),String.valueOf(EnquiryStatus.CIBIL_REJECT));
+	}
 }

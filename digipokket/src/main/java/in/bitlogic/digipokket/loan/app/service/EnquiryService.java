@@ -18,4 +18,6 @@ public interface EnquiryService {
 
 	public Integer checkCIBIL(int eid);
 
+	public List<Enquiry> getCIBIL();
+
 }
