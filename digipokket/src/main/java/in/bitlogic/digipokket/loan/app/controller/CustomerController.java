@@ -2,6 +2,7 @@ package in.bitlogic.digipokket.loan.app.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +23,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import in.bitlogic.digipokket.loan.app.model.AllPersonalDocuments;
 import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.LoanDisbursement;
 import in.bitlogic.digipokket.loan.app.model.User;
 import in.bitlogic.digipokket.loan.app.service.CustomerService;
+import in.bitlogic.digipokket.loan.enums.EnquiryStatus;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/customer")
@@ -63,6 +67,29 @@ public class CustomerController {
 		List<Customer> lc=customerService.areaWiseUsers(city);
 		return new ResponseEntity<List<Customer>>(lc,HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/verifyDocuments")
+	public ResponseEntity<List<Customer>> verifyDocuments()
+	{
+	List<Customer> listc=customerService.verifyDocuments();
+		return new ResponseEntity<List<Customer>>(listc,HttpStatus.OK);
+	}
+	
+	@GetMapping("/verifyDocs/{customerId}")
+	public ResponseEntity<Customer> verifyDocs(@PathVariable int customerId)
+	{
+		System.out.println("gggg");
+		 Customer cust= customerService.verifyDocs(customerId);
+		
+		return new ResponseEntity<Customer>(cust,HttpStatus.OK);
+	}
+	@PutMapping("/completeUplodDocs/{customerId}")
+	public ResponseEntity<Customer> completeUplodDocs(@PathVariable int customerId)
+	{
+		 Customer cust= customerService.completeUplodDocs(customerId);
+	
+		return new ResponseEntity<Customer>(cust,HttpStatus.OK);
 	}
 
 }

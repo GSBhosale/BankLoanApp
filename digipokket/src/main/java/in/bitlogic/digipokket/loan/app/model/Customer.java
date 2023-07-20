@@ -33,6 +33,7 @@ public class Customer {
 	private String username;
 	private String password;
 	private String occupation;
+	private String applicationStatus;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil cibil;                 //at start
 	@OneToOne(cascade = CascadeType.ALL)
