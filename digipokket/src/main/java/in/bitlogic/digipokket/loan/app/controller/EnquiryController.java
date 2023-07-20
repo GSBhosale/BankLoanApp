@@ -45,7 +45,7 @@ public class EnquiryController {
 		return new ResponseEntity<List<Enquiry>>(listOfEnquiry,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/rejectEnquiry/{enquiryId}")
+	@GetMapping("/sendRejectMail/{enquiryId}")
 	public ResponseEntity<List<Enquiry>> rejectEnquiry(@PathVariable("enquiryId") int eid)
 	{
 		List<Enquiry> listOfEnquiry=enquiryService.rejectEnquiry(eid);
@@ -84,5 +84,20 @@ public class EnquiryController {
 		return new ResponseEntity<List<Enquiry>>(le,HttpStatus.OK);
 	}
 	
-	
+
+	@GetMapping("sendSuccessMail/{enquiryId}")
+	public ResponseEntity<Object> sendSuccessMail(@PathVariable("enquiryId") int eid)
+	{
+		enquiryService.sendSuccessMail(eid);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	@GetMapping("apply/{enquiryId}")
+	public ResponseEntity<Object> apply(@PathVariable("enquiryId") int eid)
+	{
+        enquiryService.apply(eid);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+
 }

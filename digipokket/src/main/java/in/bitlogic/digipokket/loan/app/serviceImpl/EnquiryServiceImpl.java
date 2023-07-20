@@ -73,7 +73,8 @@ public class EnquiryServiceImpl implements EnquiryService{
 	{
 		
 		
-		Enquiry e=equiryRepo.getById(eid);
+		Optional<Enquiry> oe=equiryRepo.findById(eid);
+		Enquiry e=oe.get();
 			e.setEnquiryStatus(String.valueOf(EnquiryStatus.REJECTED));
 			SimpleMailMessage sm=new SimpleMailMessage();
 			
@@ -137,5 +138,32 @@ public class EnquiryServiceImpl implements EnquiryService{
 	public List<Enquiry> getCIBIL() {
 		
 		return equiryRepo.findAllByEnquiryStatusOrEnquiryStatus(String.valueOf(EnquiryStatus.CIBIL_OK),String.valueOf(EnquiryStatus.CIBIL_REJECT));
+	}
+
+	@Override
+	public void sendSuccessMail(int eid) {
+		
+		Optional<Enquiry> oe=equiryRepo.findById(eid);
+		Enquiry e=oe.get();
+		
+		SimpleMailMessage sm=new SimpleMailMessage();
+		
+		sm.setFrom(fromEmail);
+		sm.setTo(e.getEmailId());
+		sm.setSubject("LETTER FOR SUBMITING ENQUIRY OF LOAN");
+		sm.setText("Dear recipient M/s"+e.getFirstName()+" "+e.getLastName()+"\n \n    With regars to your letter enquiring about applying for a loan, could you visit to bank site and discuss the matter with our Relationship Executive during banking hours..");
+				
+		
+		jms.send(sm);
+	}
+
+	@Override
+	public void apply(int eid) {
+
+
+		Optional<Enquiry> oe=equiryRepo.findById(eid);
+		Enquiry e=oe.get();
+		e.setEnquiryStatus(String.valueOf(EnquiryStatus.APPLY));
+		equiryRepo.save(e);
 	}
 }

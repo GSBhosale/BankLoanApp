@@ -21,10 +21,11 @@ public class AccountsDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer accId;
 	private String accountType;
-	private String accoubntHoldersName;
+	private String accoubntHoldersName;  ///
 	private Long accountNumbber;
 	private Double requiredLoanAmount;
 	private Integer tenureInYear;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private BankDetails bankdetails;
+	
 }

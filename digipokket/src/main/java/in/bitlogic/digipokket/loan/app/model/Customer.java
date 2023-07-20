@@ -30,6 +30,7 @@ public class Customer {
 	private Integer age;
 	private String emailId;
 	private String education;
+	private String panNo;
 	private String username;
 	private String password;
 	private String occupation;
