@@ -90,4 +90,11 @@ public class EnquiryController {
 		
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
+	@GetMapping("apply/{enquiryId}")
+	public ResponseEntity<Object> apply(@PathVariable("enquiryId") int eid)
+	{
+        enquiryService.apply(eid);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
 }

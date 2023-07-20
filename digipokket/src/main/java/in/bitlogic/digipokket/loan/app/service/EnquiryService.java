@@ -22,4 +22,6 @@ public interface EnquiryService {
 
 	public void sendSuccessMail(int eid);
 
+	public void apply(int eid);
+
 }

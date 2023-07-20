@@ -145,6 +145,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 		
 		Optional<Enquiry> oe=equiryRepo.findById(eid);
 		Enquiry e=oe.get();
+		
 		SimpleMailMessage sm=new SimpleMailMessage();
 		
 		sm.setFrom(fromEmail);
@@ -154,5 +155,15 @@ public class EnquiryServiceImpl implements EnquiryService{
 				
 		
 		jms.send(sm);
+	}
+
+	@Override
+	public void apply(int eid) {
+
+
+		Optional<Enquiry> oe=equiryRepo.findById(eid);
+		Enquiry e=oe.get();
+		e.setEnquiryStatus(String.valueOf(EnquiryStatus.APPLY));
+		equiryRepo.save(e);
 	}
 }
