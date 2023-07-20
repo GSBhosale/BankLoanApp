@@ -69,5 +69,12 @@ public class UserController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
+	@GetMapping("/getAllEnquiry")
+	public ResponseEntity<List<Enquiry>> getAllEnquiry()
+	{
+		List<Enquiry> le=userService.getAllEnquiry();
+		return new ResponseEntity<List<Enquiry>>(le,HttpStatus.OK);
+	}
+	
 
 }

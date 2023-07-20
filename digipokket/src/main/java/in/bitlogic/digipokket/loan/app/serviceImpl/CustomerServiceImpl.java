@@ -13,6 +13,7 @@ import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.repositary.AddressRepositary;
 import in.bitlogic.digipokket.loan.app.repositary.CustomerRepository;
+import in.bitlogic.digipokket.loan.app.repositary.EnquiryRepositary;
 import in.bitlogic.digipokket.loan.app.service.CustomerService;
 import in.bitlogic.digipokket.loan.enums.EnquiryStatus;
 @Service
@@ -23,6 +24,8 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	AddressRepositary addressRepositary;
+	
+	
 	
 	@Override
 	public Customer createCustomer(Customer customer)
@@ -101,6 +104,8 @@ public class CustomerServiceImpl implements CustomerService {
 		System.out.println(cust.getApplicationStatus());
 		return customerRepository.save(cust);
 	}
+
+
 	
 	
 

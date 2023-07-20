@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.model.User;
+import in.bitlogic.digipokket.loan.app.repositary.EnquiryRepositary;
 import in.bitlogic.digipokket.loan.app.repositary.UserRepository;
 import in.bitlogic.digipokket.loan.app.service.UserService;
 
@@ -15,6 +17,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	EnquiryRepositary enquiryRepositary;
 	
 	@Override
 	public User createUser(User u) 
@@ -63,6 +68,12 @@ public class UserServiceImpl implements UserService{
 	public void deleteUser(int uid) {
 		// TODO Auto-generated method stub
 		userRepository.deleteById(uid);
+	}
+	
+	@Override
+	public List<Enquiry> getAllEnquiry() {
+		// TODO Auto-generated method stub
+		return enquiryRepositary.findAll();
 	}
 
 }

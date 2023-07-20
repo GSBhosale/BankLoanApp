@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import in.bitlogic.digipokket.loan.app.model.Customer;
+import in.bitlogic.digipokket.loan.app.model.Enquiry;
 
 public interface CustomerService 
 {
@@ -17,5 +18,7 @@ public interface CustomerService
 	public Customer verifyDocs(int customerId);
 
 	public Customer completeUplodDocs(int customerId);
+
+	
 
 }

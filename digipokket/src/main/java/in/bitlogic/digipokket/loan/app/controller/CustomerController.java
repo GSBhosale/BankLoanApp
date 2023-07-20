@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import in.bitlogic.digipokket.loan.app.model.AllPersonalDocuments;
 import in.bitlogic.digipokket.loan.app.model.Customer;
+import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.model.LoanDisbursement;
 import in.bitlogic.digipokket.loan.app.model.User;
 import in.bitlogic.digipokket.loan.app.service.CustomerService;
@@ -91,5 +92,7 @@ public class CustomerController {
 	
 		return new ResponseEntity<Customer>(cust,HttpStatus.OK);
 	}
+	
+	
 
 }

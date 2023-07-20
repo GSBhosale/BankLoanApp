@@ -2,6 +2,7 @@ package in.bitlogic.digipokket.loan.app.service;
 
 import java.util.List;
 
+import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.model.User;
 
 public interface UserService {
@@ -19,5 +20,7 @@ public User getSingleUser(Integer userId);
 public List<User> getAllUsers();
 
 public void deleteUser(int uid);
+
+public List<Enquiry> getAllEnquiry();
 
 }
