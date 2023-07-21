@@ -65,7 +65,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 
 	@Override
 	public List<Enquiry> viewAllEnquiry() {
-		return equiryRepo.findAllByEnquiryStatusOrEnquiryStatusOrEnquiryStatus(String.valueOf(EnquiryStatus.CREATED),String.valueOf(EnquiryStatus.CIBIL_REJECT),String.valueOf(EnquiryStatus.CIBIL_OK));
+		return equiryRepo.findAllByEnquiryStatus(String.valueOf(EnquiryStatus.CREATED));
 	}
 
 	@Override

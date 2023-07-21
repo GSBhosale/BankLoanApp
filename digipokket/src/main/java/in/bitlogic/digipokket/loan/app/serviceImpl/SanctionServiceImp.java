@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -332,5 +333,21 @@ public class SanctionServiceImp implements SanctionService
 		
 		return null;
 	}
+
+
+
+	@Override
+	public List<Customer> getSanction(String valueOf)
+	{
+		List<Customer> cust=customerRepository.findByApplicationStatus(valueOf);
+		return cust;
+	}
+
+
+
+
+
+
+
 
 }

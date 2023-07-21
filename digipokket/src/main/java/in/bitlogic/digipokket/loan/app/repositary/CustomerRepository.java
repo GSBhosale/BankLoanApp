@@ -10,5 +10,9 @@ import in.bitlogic.digipokket.loan.app.model.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 
+
 	public List<Customer> findAllByApplicationStatus(String string);
+
+
+
 }
