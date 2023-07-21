@@ -339,15 +339,8 @@ public class SanctionServiceImp implements SanctionService
 	@Override
 	public List<Customer> getSanction(String valueOf)
 	{
-		List<Customer> cust=customerRepository.findByApplicationStatus(valueOf);
+		List<Customer> cust=customerRepository.findAllByApplicationStatus(valueOf);
 		return cust;
 	}
-
-
-
-
-
-
-
 
 }
