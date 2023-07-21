@@ -38,6 +38,7 @@ public class LoanDisbursement {
     private Double disburseAmount;
     private Double remainingDisbursement;
     private String paymentStatus;
+    private Double transferAmount;
 	 @CreationTimestamp
     private Date amountPaidDate;
 	 @Column(length = 1000000)

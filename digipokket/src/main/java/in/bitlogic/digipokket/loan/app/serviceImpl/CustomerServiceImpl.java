@@ -15,6 +15,7 @@ import in.bitlogic.digipokket.loan.app.repositary.AddressRepositary;
 import in.bitlogic.digipokket.loan.app.repositary.CustomerRepository;
 import in.bitlogic.digipokket.loan.app.repositary.EnquiryRepositary;
 import in.bitlogic.digipokket.loan.app.service.CustomerService;
+import in.bitlogic.digipokket.loan.enums.ApplicationStatus;
 import in.bitlogic.digipokket.loan.enums.EnquiryStatus;
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -55,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
 		String password="dp"+customer.getFirstName().charAt(1)+customer.getLastName().charAt(1)+"@"+customer.getFirstName().length()+customer.getLastName().length()+7532;
 		customer.setPassword(password);
 		
-		customer.setApplicationStatus(String.valueOf(EnquiryStatus.PROCESSING));
+		customer.setApplicationStatus(String.valueOf(ApplicationStatus.APPLIED));
 		
 		Customer customer2=customerRepository.save(customer);
 		
@@ -90,7 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
 //		Customer cust=customerRepository.save(null);
 		Customer cust= customerRepository.getById(customerId);
 		System.out.println(cust);
-		cust.setApplicationStatus(String.valueOf(EnquiryStatus.VERIFY));
+		cust.setApplicationStatus(String.valueOf(ApplicationStatus.VERIFIED));
 		System.out.println(cust.getApplicationStatus());
 		return customerRepository.save(cust);
 		
@@ -100,7 +101,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer completeUplodDocs(int customerId) {
 		Customer cust= customerRepository.getById(customerId);
 		System.out.println(cust);
-		cust.setApplicationStatus(String.valueOf(EnquiryStatus.REUPLOAD_DOCUMENTS));
+		cust.setApplicationStatus(String.valueOf(ApplicationStatus.REUPLOAD_DOCUMENTS));
 		System.out.println(cust.getApplicationStatus());
 		return customerRepository.save(cust);
 	}
