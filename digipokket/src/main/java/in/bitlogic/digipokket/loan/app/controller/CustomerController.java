@@ -38,6 +38,7 @@ public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	
+	
 	@PostMapping(value="/createCustomer")
 	public ResponseEntity<Customer> createCustomer(@RequestParam (value="passportPhoto") MultipartFile file1,@RequestParam (value="signature") MultipartFile file2,
 			@RequestParam (value="thumb") MultipartFile file3,@RequestParam (value="adharCard") MultipartFile file4,@RequestParam (value="panCard") MultipartFile file5,
