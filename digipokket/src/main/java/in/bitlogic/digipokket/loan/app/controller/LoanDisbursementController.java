@@ -1,6 +1,7 @@
 package in.bitlogic.digipokket.loan.app.controller;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.LoanDisbursement;
 import in.bitlogic.digipokket.loan.app.service.LoanDisbursementService;
+import in.bitlogic.digipokket.loan.enums.ApplicationStatus;
 
 @RestController
 @RequestMapping("disbursement")
@@ -44,6 +48,14 @@ public class LoanDisbursementController {
 					              .headers(headers)
 					              .contentType(MediaType.APPLICATION_PDF)
 					              .body(new InputStreamResource(pdfArray));
-		
 	}
+	
+	@GetMapping("/loanDisbursement")
+	public ResponseEntity<List<Customer>> getAllSanction()
+	{
+		List<Customer> customers=loanDisbursementService.getAllSanction(String.valueOf(ApplicationStatus.SANCTIONED));
+		
+		return new ResponseEntity<List<Customer>>(customers,HttpStatus.OK);
+	}
+	
 }

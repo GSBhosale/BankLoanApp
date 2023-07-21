@@ -3,6 +3,7 @@ package in.bitlogic.digipokket.loan.app.serviceImpl;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,6 +24,7 @@ import in.bitlogic.digipokket.loan.app.repositary.EnquiryRepositary;
 import in.bitlogic.digipokket.loan.app.repositary.LoanDisbursementRepositary;
 import in.bitlogic.digipokket.loan.app.repositary.SanctionRepository;
 import in.bitlogic.digipokket.loan.app.service.LoanDisbursementService;
+import in.bitlogic.digipokket.loan.enums.ApplicationStatus;
 
 @Service
 public class LoanDisbursementServiceImpl implements LoanDisbursementService{
@@ -106,6 +108,13 @@ Optional<Enquiry> optional1 = enquiryRepository.findById(customer.getCustomerId(
 	}
  
 		return null;
+	}
+
+	@Override
+	public List<Customer> getAllSanction(String string) {
+		List<Customer> customers=customerRepository.findAllByApplicationStatus(String.valueOf(ApplicationStatus.SANCTIONED));
+		
+		return customers;
 	}
 		 
 }
