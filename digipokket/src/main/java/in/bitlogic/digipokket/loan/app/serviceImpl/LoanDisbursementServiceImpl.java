@@ -2,6 +2,8 @@ package in.bitlogic.digipokket.loan.app.serviceImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +22,11 @@ import org.springframework.stereotype.Service;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.CMYKColor;
 import com.lowagie.text.pdf.PdfWriter;
 
 import in.bitlogic.digipokket.loan.app.model.Customer;
@@ -89,46 +95,84 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService{
 		customer.getLoanDisbursement()
 		.setDisburseAmount(customer.getSanctionLetter().getLoanAmountSanctioned());
 		
-//customer.getLoanDisbursement().setPaymentStatus(String.valueOf(CustomerStatus.loandisbursed));
-//customer.setCustomerStatus(String.valueOf(CustomerStatus.loandisbursed));
-customer.getLoanDisbursement().setAmountPaidDate(date);
-ByteArrayOutputStream out = new ByteArrayOutputStream();
+        //customer.getLoanDisbursement().setPaymentStatus(String.valueOf(CustomerStatus.loandisbursed));
+         //customer.setCustomerStatus(String.valueOf(CustomerStatus.loandisbursed));
+       customer.getLoanDisbursement().setAmountPaidDate(date);
+       ByteArrayOutputStream out = new ByteArrayOutputStream();
 	
 		
 		
 
 	
-		String title = "Shree Ganesh Finace";
-		String title2 = "\nLoan Disbursement Letter";
-		String content1 = "Dear , " + customer.getFirstName()+" "+customer.getLastName()
-				+ " This letter is to inform you that we have successfully disbursed the loan funds for your car loan. "
-				+ "The loan amount of " + customer.getSanctionLetter().getLoanAmountSanctioned()
-				+ " has been transferred to the dealer's account and the car is ready "
-				+ "for delivery.\n\nWe are pleased to have been able to provide you with the financing you needed to purchase the car of your dreams. "
-				+ "We hope that you are satisfied with our service and that you enjoy driving your new car."
-				+ "\n\nThanks for chossing shree Ganesh Finace, hope your expiriance is pleasant.\n\nSincerely,\nShree Ganesh Finace";
-	
+		String title = "Loan Disbursement Letter";
+		  Date date1 = new Date();
+		    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		    String formatedDate = dateFormat.format(date1);
+
+	    String dates = "Date:-" + formatedDate;
+		String line="______________________________________________________________________________";
+		String title2 = "__DigiPokket Finance Service__";
+		String content1 = "Dear Customer,\r\n "+ customer.getFirstName()+" "+customer.getLastName()
+				+ " This letter is to inform you that we have successfully disbursed the loan amount."
+				+ "The loan amount of "+ customer.getSanctionLetter().getLoanAmountSanctioned()
+				+ " has been transferred to your Account Number "+ customer.getAccountDetails().getAccountNumbber() +"."
+				+ "\r\n We are pleased to have been able to provide you with the financing you needed to get your dreams comestrue. "
+				+ "We hope that you are satisfied with our service."
+				+ "\n\nThanks for chossing DigiPokket Finance Service, hope your experience is pleasant.";
+	   
+		String content2=" Your Sincerely,\n DigiPokket Finance Service";
 		
 		
-		Document document = new Document();
-		PdfWriter.getInstance(document, out);
+	    	Document document = new Document();
+		
+		    PdfWriter.getInstance(document, out);
+		
 		
 		document.open();
-		Paragraph titlepara=new Paragraph(title);
-		document.add(titlepara);
+
 		
-		Paragraph title2para=new Paragraph(title2);
-		document.add(title2para);
+	//Title
+		Font titleFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD,25);
+		titleFont.setColor(CMYKColor.red);
+		Paragraph titlePara=new Paragraph(title,titleFont);
+		          titlePara.setAlignment(Element.ALIGN_CENTER);
+		          document.add(titlePara);
+	//Title2	          
+	    Font title2Font=FontFactory.getFont(FontFactory.HELVETICA_BOLD,15);   
+	    title2Font.setColor(CMYKColor.BLACK);
+	    Paragraph title2Para=new Paragraph(title2,title2Font);
+	               title2Para.setAlignment(Element.ALIGN_CENTER);
+		          document.add(title2Para);
+		//line          
+		 Paragraph linePara=new Paragraph(line);
+		           linePara.setAlignment(Element.ALIGN_CENTER);
+		          document.add(linePara);
+		         
+		  //Date        
+		  Font dateFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+		  Paragraph datePara=new Paragraph(dates,dateFont);
+		            datePara.setSpacingBefore(10);
+		            datePara.setSpacingAfter(15);
+		  		    document.add(datePara);
+	
 		
 		Paragraph contentpara=new Paragraph(content1);
 		document.add(contentpara);
+		
+		Font contentFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD,10);
+		titleFont.setColor(CMYKColor.BLACK);
+		Paragraph contentPara=new Paragraph(content2,contentFont);
+		          contentPara.setAlignment(Element.ALIGN_RIGHT);
+		          contentPara.setSpacingBefore(10);
+		          document.add(contentPara);
 		document.close();
 		customer.getLoanDisbursement().setLoanDisbursementLetter(out.toByteArray());
 		
 		InputStreamSource input=new ByteArrayResource(out.toByteArray());
-MimeMessage m=jms.createMimeMessage();
+        MimeMessage m=jms.createMimeMessage();
 		
-		try {
+		try 
+		{
 			MimeMessageHelper helper=new MimeMessageHelper(m,true);
 			helper.setTo(customer.getEmailId());
 			helper.setFrom(fromEmail);
@@ -136,23 +180,28 @@ MimeMessage m=jms.createMimeMessage();
 			helper.setSubject("Loan amount disbursed..!");
 		helper.addAttachment("disbursement letter.pdf",input);
 			jms.send(m);
-		} catch (Exception e1) {
+		} 
+		catch (Exception e1) 
+		{
 
 		e1.printStackTrace();
-	}
+		
+	    }
 	
 		customerRepository.save(customer);
-	System.out.println("Disburse");
+	    System.out.println("Disburse");
  
 		return new ByteArrayInputStream(out.toByteArray());
-	}
+		
+     	}
 	
 
-	@Override
-	public List<Customer> getAllSanction(String string) {
+	  @Override
+	   public List<Customer> getAllSanction(String string)
+	  {
 		List<Customer> customers=customerRepository.findAllByApplicationStatus(String.valueOf(ApplicationStatus.SANCTIONED));
 		
 		return customers;
-	}
+	   }
 		 
 }
