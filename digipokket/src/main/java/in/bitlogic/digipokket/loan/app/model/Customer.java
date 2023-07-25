@@ -45,8 +45,8 @@ public class Customer {
 	private AccountsDetails accountDetails=new AccountsDetails() ;     //at start
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;                //at start
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Ledger> ledger;                
+	@OneToOne(cascade = CascadeType.ALL)
+	private Ledger ledger;                
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionLetter=new SanctionLetter();
 	@OneToOne(cascade = CascadeType.ALL)

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.bitlogic.digipokket.loan.app.model.EMI;
 import in.bitlogic.digipokket.loan.app.model.Ledger;
 import in.bitlogic.digipokket.loan.app.service.LedgerService;
 
@@ -25,31 +26,14 @@ public class LedgerController {
 	@Autowired
 	LedgerService ls;
 	
-
-	//Post API for Ledger=> http://localhost:9090/addLedger
-		@PostMapping("/addLedger")
-	public ResponseEntity<Ledger> saveLedger(@RequestBody Ledger l)
+	@GetMapping("/createEMI/{customerId}")
+	public List<EMI> createEMI(@PathVariable("customerId") int cid)
 	{
-		return new ResponseEntity<Ledger>(ls.addLedger(l),HttpStatus.CREATED);
-			
+		 List<EMI> emis=ls.createEMI(cid);
+		 return emis;
+		 
 	}
-		
-		
-	//Get API for Ledger => http://localhost:9090/getLedger
-			@GetMapping("/getLedger")
-			public ResponseEntity<List<Ledger>> getLedger()
-			{
-				return new ResponseEntity<List<Ledger>>(ls.getLedger(),HttpStatus.OK);
-			}
-			
-	        @GetMapping("/generateLedger/{customerId}")
-	        public Set<Ledger> genrateLedger(@PathVariable int customerId)
-	        {
-	           Set<Ledger> ledgers=	ls.createLedger(customerId);
-	        	
-	        	
-	        	return ledgers;
-	        }
 	
+
 	
 }

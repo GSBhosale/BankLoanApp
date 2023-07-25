@@ -25,29 +25,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Ledger {
-	
 	@Id
-	private String ledgerId;
-	@CreationTimestamp
-	private Date ledgerCreatedDate;
-	private Double totalLoanAmount;
-	private Double payableAmountwithInterest;
-	private Integer loanTenureInYears;
-	private Double monthlyEMI;	
-	private Double amountPaidTillDate;
-	private Double remainingAmount;
-	private String nextEmiDateStart;	
-	private String nextEmiDateEnd;	
-	private Integer defaulterCount; // no of emi bounce
-	@CreationTimestamp
-	private Date currentEmiPaidDate;
-	private String currentEmiPaidMode;
-	private String previousEmiStatus; // paid unpaid
-	private String currentMonthEmiStatus;
-	private String loanEmiStartDate;
-	private String loanEmiEndDate;
-	private Integer noOfEmisPaid;
-	private Integer totalNoOfEmi;
-	private Integer remainingEmi;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+private Integer ledgerId;
+	@OneToMany(cascade = CascadeType.ALL)
+private List<EMI> emis=new ArrayList<EMI>(); 
 
 }
