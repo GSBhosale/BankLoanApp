@@ -378,11 +378,4 @@ MimeMessage m=jms.createMimeMessage();
 		return cust;
 	}
 
-
-
-
-
-
-
-
 }
