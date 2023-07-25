@@ -1,5 +1,7 @@
 package in.bitlogic.digipokket.loan.app.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,8 +45,8 @@ public class Customer {
 	private AccountsDetails accountDetails=new AccountsDetails() ;     //at start
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;                //at start
-	@OneToOne(cascade = CascadeType.ALL)
-	private Ledger ledger=new Ledger();                 
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Ledger> ledger;                
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionLetter=new SanctionLetter();
 	@OneToOne(cascade = CascadeType.ALL)

@@ -8,7 +8,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.lowagie.text.Document;
@@ -24,6 +31,7 @@ import in.bitlogic.digipokket.loan.app.model.SanctionLetter;
 import in.bitlogic.digipokket.loan.app.repositary.CustomerRepository;
 import in.bitlogic.digipokket.loan.app.repositary.SanctionRepository;
 import in.bitlogic.digipokket.loan.app.service.SanctionService;
+import in.bitlogic.digipokket.loan.enums.ApplicationStatus;
 
 @Service
 public class SanctionServiceImp implements SanctionService
@@ -34,7 +42,12 @@ public class SanctionServiceImp implements SanctionService
     @Autowired
     CustomerRepository customerRepository;
 	
-	@Override
+	@Autowired
+	JavaMailSender jms;
+	
+	@Value(value="${spring.mail.username}")
+	String fromEmail;
+	
 	public ByteArrayInputStream createPdf(int customerId) 
 	{
 
@@ -61,9 +74,9 @@ public class SanctionServiceImp implements SanctionService
 
      	String to = "Date:-" + formatedDate + "\n " + "To:-";
 
-	    String text = "Dear Customer,\n We Thank you for choosing our XYZ bank, We are pleased to inform you that we have in principal approved loan to you as per Terms and Condition mentioned below.";
+	    String text = "Dear "+customer.getFirstName()+" "+customer.getLastName()+",\n We Thank you for choosing our digiPOKKET bank, We are pleased to inform you that we have in principal approved loan to you as per Terms and Condition mentioned below.";
 
-	    String termsncondition= "Additional condition to comply prior to disbursal: \n 1.Repayment from XYZ bank. \n 2.Confirmation form Official ID and Copy of ID required. \n 3.The Borrower will be required to reply within 21 days from date of issue of said Notice \n 4. Legal vetting & Search to be done.\r\n"
+	    String termsncondition= "Additional condition to comply prior to disbursal: \n 1.Repayment from digiPOKKET bank. \n 2.Confirmation form Official ID and Copy of ID required. \n 3.The Borrower will be required to reply within 21 days from date of issue of said Notice \n 4. Legal vetting & Search to be done.\r\n"
 	   
 	    		+ "5. NOC from tenant at offered collateral.\r\n"
 	    	
@@ -72,8 +85,8 @@ public class SanctionServiceImp implements SanctionService
 //	    		+ "7. Confirmation form Official ID and Copy of ID required.\r\n";
 	    		
 	    		  
-	    
-		String  thanksText="Thank you,\n regards Digipokket!";
+	    String line="______________________________________________________________________________";
+		String  thanksText="Thank you,\n regards digiPOKKET!";
 		
 		ByteArrayOutputStream out=new ByteArrayOutputStream();
 		
@@ -85,8 +98,10 @@ public class SanctionServiceImp implements SanctionService
 		Font titleFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD,25);
 		titleFont.setColor(CMYKColor.red);
 		Paragraph titlePara=new Paragraph(title,titleFont);
+		Paragraph linePara=new Paragraph(line);
 		 titlePara.setAlignment(Element.ALIGN_CENTER);
 		document.add(titlePara);
+		document.add(linePara);
 //To 			
 		Font toFont=FontFactory.getFont(FontFactory.HELVETICA_BOLD);
 		Paragraph toPara=new Paragraph(to,toFont);
@@ -292,10 +307,30 @@ public class SanctionServiceImp implements SanctionService
 		document.add(thankPara);
 	
      	document.close();
-     	
-     	
-	
-	    return new ByteArrayInputStream(out.toByteArray());
+     	ByteArrayInputStream pdf	=new ByteArrayInputStream(out.toByteArray());
+//		 byte[] byteArray = pdf.readAllBytes();
+//	 byteArray=pdf.readAllBytes();
+		
+     	customer.getSanctionLetter().setSactionLetter(out.toByteArray());
+     	customer.getSanctionLetter().setSactionStatus(String.valueOf(ApplicationStatus.SANCTIONED));
+     	customerRepository.save(customer);
+    	InputStreamSource input=new ByteArrayResource(out.toByteArray());
+
+MimeMessage m=jms.createMimeMessage();
+		
+		try {
+			MimeMessageHelper helper=new MimeMessageHelper(m,true);
+			helper.setTo(customer.getEmailId());
+			helper.setFrom(fromEmail);
+			helper.setText("In ref to the loan application of M/s "+customer.getFirstName()+" "+customer.getLastName()+". Based on the information you provided in your loan application, \nwe are pleased to inform you of approval of your loan for amount "+customer.getSanctionLetter().getLoanAmountSanctioned());
+			helper.setSubject("Loan proposal aproved..!");
+		helper.addAttachment("sanction letter.pdf", input);
+			jms.send(m);
+		} catch (Exception e1) {
+
+		e1.printStackTrace();
+	}
+		return pdf;
 	   
 
 	}
@@ -303,11 +338,10 @@ public class SanctionServiceImp implements SanctionService
 	
 	
 	@Override
-	public SanctionLetter sanctionLoan(SanctionLetter sanLetter, int customerId) {
+	public Customer sanctionLoan(SanctionLetter sanLetter, int customerId) {
 		
 	Optional<Customer> om=	customerRepository.findById(customerId);
-	if(om.isPresent())
-	{
+	
 		Customer customer=om.get();
 		
 		customer.setSanctionLetter(sanLetter);
@@ -328,10 +362,11 @@ public class SanctionServiceImp implements SanctionService
 		 double totalInterest=totalAm-amount;
 		 sanLetter.setTotalInterestAmount(totalAm-amount);
 		 sanLetter.setProcessingFees(processingFees);
+		 customer.setApplicationStatus(String.valueOf(ApplicationStatus.SANCTIONED));
 		customerRepository.save(customer);
-	}
 		
-		return null;
+		
+		return customer;
 	}
 
 
@@ -339,7 +374,7 @@ public class SanctionServiceImp implements SanctionService
 	@Override
 	public List<Customer> getSanction(String valueOf)
 	{
-		List<Customer> cust=customerRepository.findByApplicationStatus(valueOf);
+		List<Customer> cust=customerRepository.findAllByApplicationStatus(valueOf);
 		return cust;
 	}
 

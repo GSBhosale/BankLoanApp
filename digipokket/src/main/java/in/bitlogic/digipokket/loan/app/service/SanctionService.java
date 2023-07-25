@@ -9,11 +9,15 @@ import in.bitlogic.digipokket.loan.app.model.SanctionLetter;
 public interface SanctionService 
 {
 
-	public ByteArrayInputStream createPdf(int customerId);
+	
 
-	public SanctionLetter sanctionLoan(SanctionLetter sanLetter, int customerId);
+	public Customer sanctionLoan(SanctionLetter sanLetter, int customerId);
 
 	public List<Customer> getSanction(String valueOf);
+
+	public ByteArrayInputStream createPdf(int customerId);
+
+	
 
 
 	

@@ -1,7 +1,9 @@
 package in.bitlogic.digipokket.loan.app.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,24 +27,27 @@ import lombok.NoArgsConstructor;
 public class Ledger {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer ledgerId;
+	private String ledgerId;
 	@CreationTimestamp
 	private Date ledgerCreatedDate;
 	private Double totalLoanAmount;
 	private Double payableAmountwithInterest;
-	private Integer tenure;
-	private Double monthlyEMI;
-	private Double rateOfInterest;
-	private Double amountPaidtillDate;
+	private Integer loanTenureInYears;
+	private Double monthlyEMI;	
+	private Double amountPaidTillDate;
 	private Double remainingAmount;
-	private String nextEmiDatestart;
-	private String nextEmiDateEnd;
-	private Integer defaulterCount;
-	private String previousEmitStatus;
+	private String nextEmiDateStart;	
+	private String nextEmiDateEnd;	
+	private Integer defaulterCount; // no of emi bounce
+	@CreationTimestamp
+	private Date currentEmiPaidDate;
+	private String currentEmiPaidMode;
+	private String previousEmiStatus; // paid unpaid
 	private String currentMonthEmiStatus;
-	private String loanEndDate;
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<EMIHistory> allEMIHistory=new HashSet();
+	private String loanEmiStartDate;
+	private String loanEmiEndDate;
+	private Integer noOfEmisPaid;
+	private Integer totalNoOfEmi;
+	private Integer remainingEmi;
 
 }

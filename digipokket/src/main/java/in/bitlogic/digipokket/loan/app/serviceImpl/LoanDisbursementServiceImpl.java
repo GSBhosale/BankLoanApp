@@ -7,12 +7,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.mail.internet.MimeMessage;
+
 import org.apache.logging.slf4j.SLF4JLogger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
 import in.bitlogic.digipokket.loan.app.model.Customer;
@@ -38,6 +46,12 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService{
 	@Autowired
 	EnquiryRepositary enquiryRepository;
 	
+
+	@Autowired
+	JavaMailSender jms;
+	
+	@Value(value="${spring.mail.username}")
+	String fromEmail;
 	
 	@Override
 	public LoanDisbursement loanAmountDisbursement(LoanDisbursement ld,Integer customerId) {
@@ -47,9 +61,9 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService{
 		{
 			Customer customer=om.get();
 			ld.setTotalLoanAmount(customer.getSanctionLetter().getLoanAmountSanctioned());
-			
+			ld.setPaymentStatus("Disbursed");
 			customer.setLoanDisbursement(ld);
-			
+			customer.setApplicationStatus(String.valueOf(ApplicationStatus.DISBURSED));
 			customerRepository.save(customer);
 		}
 			
@@ -78,14 +92,11 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService{
 //customer.getLoanDisbursement().setPaymentStatus(String.valueOf(CustomerStatus.loandisbursed));
 //customer.setCustomerStatus(String.valueOf(CustomerStatus.loandisbursed));
 customer.getLoanDisbursement().setAmountPaidDate(date);
-Optional<Enquiry> optional1 = enquiryRepository.findById(customer.getCustomerId());
+ByteArrayOutputStream out = new ByteArrayOutputStream();
+	
+		
+		
 
-	if (optional1.isPresent()) {
-		Enquiry enquiry = optional1.get();
-		//enquiry.setEnquiryStatus(String.valueOf(CustomerStatus.loandisbursed));
-		enquiryRepository.save(enquiry);
-		SLF4JLogger slf4jLogger = new SLF4JLogger(null, null);
-		slf4jLogger.info("Loan Disbursement PDF started");
 	
 		String title = "Shree Ganesh Finace";
 		String title2 = "\nLoan Disbursement Letter";
@@ -97,18 +108,45 @@ Optional<Enquiry> optional1 = enquiryRepository.findById(customer.getCustomerId(
 				+ "We hope that you are satisfied with our service and that you enjoy driving your new car."
 				+ "\n\nThanks for chossing shree Ganesh Finace, hope your expiriance is pleasant.\n\nSincerely,\nShree Ganesh Finace";
 	
-		ByteArrayOutputStream opt = new ByteArrayOutputStream();
+		
 		
 		Document document = new Document();
-		PdfWriter.getInstance(document, opt);
+		PdfWriter.getInstance(document, out);
 		
 		document.open();
-	
-	
+		Paragraph titlepara=new Paragraph(title);
+		document.add(titlepara);
+		
+		Paragraph title2para=new Paragraph(title2);
+		document.add(title2para);
+		
+		Paragraph contentpara=new Paragraph(content1);
+		document.add(contentpara);
+		document.close();
+		customer.getLoanDisbursement().setLoanDisbursementLetter(out.toByteArray());
+		
+		InputStreamSource input=new ByteArrayResource(out.toByteArray());
+MimeMessage m=jms.createMimeMessage();
+		
+		try {
+			MimeMessageHelper helper=new MimeMessageHelper(m,true);
+			helper.setTo(customer.getEmailId());
+			helper.setFrom(fromEmail);
+			helper.setText("In ref to the loan application of M/s "+customer.getFirstName()+" "+customer.getLastName()+". Based on the information you provided in your loan application, \nwe are pleased to inform you of disbursement of your loan for amount "+customer.getSanctionLetter().getLoanAmountSanctioned());
+			helper.setSubject("Loan amount disbursed..!");
+		helper.addAttachment("disbursement letter.pdf",input);
+			jms.send(m);
+		} catch (Exception e1) {
+
+		e1.printStackTrace();
 	}
+	
+		customerRepository.save(customer);
+	System.out.println("Disburse");
  
-		return null;
+		return new ByteArrayInputStream(out.toByteArray());
 	}
+	
 
 	@Override
 	public List<Customer> getAllSanction(String string) {

@@ -21,22 +21,21 @@ import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.SanctionLetter;
 import in.bitlogic.digipokket.loan.app.service.SanctionService;
 import in.bitlogic.digipokket.loan.enums.ApplicationStatus;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/sanction")
-@CrossOrigin("*")
 public class SanctionController 
 {
 	@Autowired
 	SanctionService sanctionService;
 	
-	@PostMapping("insertData/{customerId}")
-	public ResponseEntity<SanctionLetter> sanctionLoan(@RequestBody SanctionLetter sanLetter,@PathVariable int customerId)
+	@PostMapping("sanctionLoan/{customerId}")
+	public ResponseEntity<Customer> sanctionLoan(@RequestBody SanctionLetter sanLetter,@PathVariable int customerId)
 	{
 		        
-		SanctionLetter sanctionLetter=sanctionService.sanctionLoan(sanLetter,customerId);
+		Customer customer=sanctionService.sanctionLoan(sanLetter,customerId);
 		
-		return new ResponseEntity<SanctionLetter>(sanctionLetter,HttpStatus.CREATED);
+		return new ResponseEntity<Customer>(customer,HttpStatus.CREATED);
 		
 	}
 	
@@ -55,7 +54,7 @@ public class SanctionController
 		
 	}
 	
-	@GetMapping("/sanctions")
+	@GetMapping("/getSanction")
 	public ResponseEntity<List<Customer>> getSanction()
 	{
 		List<Customer> customer=sanctionService.getSanction(String.valueOf(ApplicationStatus.VERIFIED));
