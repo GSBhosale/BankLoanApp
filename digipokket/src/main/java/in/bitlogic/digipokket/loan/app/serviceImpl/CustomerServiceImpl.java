@@ -5,12 +5,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import in.bitlogic.digipokket.loan.app.model.Address;
 import in.bitlogic.digipokket.loan.app.model.AllPersonalDocuments;
 import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.Enquiry;
+import in.bitlogic.digipokket.loan.app.model.Ledger;
 import in.bitlogic.digipokket.loan.app.repositary.AddressRepositary;
 import in.bitlogic.digipokket.loan.app.repositary.CustomerRepository;
 import in.bitlogic.digipokket.loan.app.repositary.EnquiryRepositary;
@@ -26,6 +31,12 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	AddressRepositary addressRepositary;
 	
+	@Autowired
+	JavaMailSender jms;
+	
+	
+	@Value(value="${spring.mail.username}")
+	String fromEmail;
 	
 	
 	@Override
@@ -57,8 +68,25 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.setPassword(password);
 		
 		customer.setApplicationStatus(String.valueOf(ApplicationStatus.APPLIED));
-		
+		Ledger l=new Ledger();
+		customer.setLedger(l);
+		customer.setDesignation("Customer");
 		Customer customer2=customerRepository.save(customer);
+		
+		Optional<Customer> oe=customerRepository.findByFirstNameAndLastName(customer.getFirstName(),customer.getLastName());
+		Customer e=oe.get();
+			
+			SimpleMailMessage sm=new SimpleMailMessage();
+			
+			sm.setFrom(fromEmail);
+			sm.setTo(e.getEmailId());
+			sm.setSubject("LETTER FOR REJECT OF LOAN");
+			sm.setText("This letter is to notify M/s"+e.getFirstName()+" "+e.getLastName()+" about the Successfullloan request that you submitted at digipokket Pvt. Ltd.\n "
+					+ "Your username: "+e.getUsername()+"\n"+"Your password: "+e.getPassword());
+					
+			
+			jms.send(sm);
+		
 		
 		return customer;
 	}
@@ -104,6 +132,24 @@ public class CustomerServiceImpl implements CustomerService {
 		cust.setApplicationStatus(String.valueOf(ApplicationStatus.REUPLOAD_DOCUMENTS));
 		System.out.println(cust.getApplicationStatus());
 		return customerRepository.save(cust);
+	}
+
+	@Override
+	public Customer authCustomer(String uname, String pass) {
+		return customerRepository.findByUsernameAndPassword(uname,pass);
+	}
+
+	@Override
+	public Customer getSingleCustomer(int customerId) {
+
+		Optional<Customer> oc=customerRepository.findById(customerId);
+		return oc.get();
+	}
+
+	@Override
+	public List<Customer> getAllCustomers() {
+		// TODO Auto-generated method stub
+		return customerRepository.findAll();
 	}
 
 

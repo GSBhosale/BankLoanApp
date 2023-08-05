@@ -19,6 +19,7 @@ import in.bitlogic.digipokket.loan.app.model.SanctionLetter;
 import in.bitlogic.digipokket.loan.app.repositary.CustomerRepository;
 import in.bitlogic.digipokket.loan.app.repositary.LedgerRepositary;
 import in.bitlogic.digipokket.loan.app.service.LedgerService;
+import in.bitlogic.digipokket.loan.enums.ApplicationStatus;
 import in.bitlogic.digipokket.loan.enums.EMIStatus;
 @Service
 public class LedgerServiceImpl implements LedgerService{
@@ -35,17 +36,28 @@ public class LedgerServiceImpl implements LedgerService{
 		Optional<Customer>cust=cr.findById(cid);
 		Customer c=cust.get();
 		c.getSanctionLetter().setTotalLoanAmountWithInterest(c.getSanctionLetter().getTotalLoanAmountWithInterest()-c.getSanctionLetter().getProcessingFees());
+		double totalamount=c.getSanctionLetter().getTotalLoanAmountWithInterest();
 		for(int i=1;i<=(c.getSanctionLetter().getLoanTenure()*12);i++)
 		{
 			EMI emi=new EMI();
 			emi.setEmiStatus(String.valueOf(EMIStatus.UNPAID));
-			emi.setRemainingAmount(c.getSanctionLetter().getTotalLoanAmountWithInterest()-c.getSanctionLetter().getMonthlyEmiAmount());
-			c.getSanctionLetter().setTotalLoanAmountWithInterest(emi.getRemainingAmount());
+			emi.setRemainingAmount(totalamount-c.getSanctionLetter().getMonthlyEmiAmount());
+			totalamount=totalamount-c.getSanctionLetter().getMonthlyEmiAmount();
+			//c.getSanctionLetter().setTotalLoanAmountWithInterest(emi.getRemainingAmount());
 			c.getLedger().getEmis().add(emi);
 		}
-		
+		c.setApplicationStatus(String.valueOf(ApplicationStatus.LEDGER_CREATED));
+		c.getLedger().setNoOfEmiPaid(0);
+		c.getLedger().setNoOfEmiUnpaid((c.getSanctionLetter().getLoanTenure()*12));
 		cr.save(c);
 		return c.getLedger().getEmis();
+	}
+
+	@Override
+	public List<Customer> getAllLedgers() {
+
+		
+		return cr.findAllByApplicationStatus(String.valueOf(ApplicationStatus.LEDGER_CREATED));
 	}
 
 	

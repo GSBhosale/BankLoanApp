@@ -15,7 +15,7 @@ public interface SanctionService
 
 	public List<Customer> getSanction(String valueOf);
 
-	public ByteArrayInputStream createPdf(int customerId);
+	//public ByteArrayInputStream createPdf(int customerId);
 
 	
 

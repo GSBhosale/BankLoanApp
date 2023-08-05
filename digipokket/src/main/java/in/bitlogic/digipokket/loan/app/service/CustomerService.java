@@ -19,6 +19,12 @@ public interface CustomerService
 
 	public Customer completeUplodDocs(int customerId);
 
+	public Customer authCustomer(String uname, String pass);
+
+	public Customer getSingleCustomer(int customerId);
+
+	public List<Customer> getAllCustomers();
+
 	
 
 }

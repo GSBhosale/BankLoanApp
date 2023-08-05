@@ -19,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.Enquiry;
 import in.bitlogic.digipokket.loan.app.model.User;
+import in.bitlogic.digipokket.loan.app.service.CustomerService;
 import in.bitlogic.digipokket.loan.app.service.UserService;
 @CrossOrigin("*")
 @RestController
@@ -29,6 +31,10 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+
+	@Autowired
+	CustomerService customerService;
 	
 	
 	@PostMapping("/createUser")
@@ -45,12 +51,18 @@ public class UserController {
 		return new ResponseEntity<User>(user,HttpStatus.CREATED);
 	}
 	@GetMapping("/authenticateUser/{username}/{password}")
-	public ResponseEntity<User> authenticateUser(@PathVariable("username") String username,@PathVariable("password") String password)
+	public ResponseEntity<Object> authenticateUser(@PathVariable("username") String username,@PathVariable("password") String password)
 	{
 		User user=userService.authenticateUser(username,password);
+
+		Customer customer=customerService.authCustomer(username,password);
 		if(user!=null)
 		{
-			return new ResponseEntity<User>(user,HttpStatus.OK);
+			return new ResponseEntity<Object>(user,HttpStatus.OK);
+		}
+		if(customer!=null)
+		{
+			return new ResponseEntity<Object>(customer,HttpStatus.OK);
 		}
 		return null;
 	}

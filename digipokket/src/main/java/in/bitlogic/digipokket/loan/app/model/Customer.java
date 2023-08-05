@@ -25,6 +25,7 @@ public class Customer {
 	private Integer customerId;
 	private String firstName;
 	private String middleName;
+	private String designation;
 	private String lastName;
 	private Long mobileNo;
 	private String dateOfBirth;
@@ -40,7 +41,7 @@ public class Customer {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil cibil;                 //at start
 	@OneToOne(cascade = CascadeType.ALL)
-	private AllPersonalDocuments allPersonalDocuments =new AllPersonalDocuments();   //at start
+	private AllPersonalDocuments userDocs =new AllPersonalDocuments();   //at start
 	@OneToOne(cascade = CascadeType.ALL)
 	private AccountsDetails accountDetails=new AccountsDetails() ;     //at start
 	@OneToOne(cascade = CascadeType.ALL)

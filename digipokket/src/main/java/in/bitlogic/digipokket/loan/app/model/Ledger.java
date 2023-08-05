@@ -30,5 +30,7 @@ public class Ledger {
 private Integer ledgerId;
 	@OneToMany(cascade = CascadeType.ALL)
 private List<EMI> emis=new ArrayList<EMI>(); 
+	private Integer noOfEmiPaid;
+	private Integer noOfEmiUnpaid;
 
 }

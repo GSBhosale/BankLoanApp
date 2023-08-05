@@ -30,7 +30,7 @@ public class AllPersonalDocuments {
 	@Lob
 	private byte[] bankPassbook;
 	@Lob
-	private byte[] passportPhoto;
+	private byte[] photo;
 	@Lob
 	private byte[] signature;
 	@Lob

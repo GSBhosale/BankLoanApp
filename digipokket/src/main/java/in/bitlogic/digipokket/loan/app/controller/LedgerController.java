@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.bitlogic.digipokket.loan.app.model.Customer;
 import in.bitlogic.digipokket.loan.app.model.EMI;
 import in.bitlogic.digipokket.loan.app.model.Ledger;
+import in.bitlogic.digipokket.loan.app.repositary.CustomerRepository;
 import in.bitlogic.digipokket.loan.app.service.LedgerService;
 
 @CrossOrigin
@@ -26,12 +28,20 @@ public class LedgerController {
 	@Autowired
 	LedgerService ls;
 	
+	
+	
 	@GetMapping("/createEMI/{customerId}")
 	public List<EMI> createEMI(@PathVariable("customerId") int cid)
 	{
 		 List<EMI> emis=ls.createEMI(cid);
 		 return emis;
 		 
+	}
+	@GetMapping("/getAllLedgers")
+	public List<Customer> getAllLedgers()
+	{
+		List<Customer> ledgers=ls.getAllLedgers();
+		return ledgers;
 	}
 	
 
